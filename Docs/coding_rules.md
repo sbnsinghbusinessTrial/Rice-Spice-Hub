@@ -145,6 +145,8 @@ Format:
 AAA-basmati-rice.html
 AAB-japanese-rice.html
 AAC-jasmine-rice.html
+AAD-specialty-rice.html
+AAE-rice-products.html
 
 Rule:
 
@@ -155,21 +157,115 @@ Recommended:
 
 images/
 │
-├─ products/
-│   ├─ AA/
-│   │   ├─ AAA/
-│   │   ├─ AAB/
-│   │   └─ AAC/
-│   │
-│   ├─ AB/
-│   └─ AC/
-│
-└─ placeholders/
+└── categories/
+    │
+    ├── AA-rice/
+    │   ├── category.jpg
+    │   │
+    │   ├── AAA-basmati-rice/
+    │   │   └── category.jpg
+    │   │
+    │   ├── AAB-japanese-rice/
+    │   │   └── category.jpg
+    │   │
+    │   ├── AAC-jasmine-rice/
+    │   │   └── category.jpg
+    │   │
+    │   ├── AAD-specialty-rice/
+    │   │   └── category.jpg
+    │   │
+    │   └── AAE-rice-products/
+    │       └── category.jpg
+    │
+    ├── AB-dal-lentils-beans/
+    └── ...
 
 Example:
 
-images/products/AA/AAA/AAA0001.jpg
-10. Product Master Rules
+images/categories/AA-rice/category.jpg
+
+images/categories/AA-rice/AAA-basmati-rice/category.jpg
+
+images/categories/AB-dal-lentils-beans/ABA-red-lentils/category.jpg
+
+10. Product Image Structure
+Purpose
+
+Used for actual sellable products.
+
+Structure
+images/
+│
+└── products/
+    │
+    ├── AA-rice/
+    │   ├── AAA-basmati-rice/
+    │   │   ├── AAA0001.jpg
+    │   │   ├── AAA0002.jpg
+    │   │   └── AAA0003.jpg
+    │   │
+    │   ├── AAB-japanese-rice/
+    │   └── ...
+    │
+    ├── AB-dal-lentils-beans/
+    └── ...
+Examples
+images/products/AA-rice/AAA-basmati-rice/AAA0001.jpg
+
+images/products/AA-rice/AAA-basmati-rice/AAA0002.jpg
+
+images/products/AB-dal-lentils-beans/ABA-red-lentils/ABA0001.jpg
+11. Product Code Format
+Rule
+[Subcategory Code][4-digit Number]
+Examples
+AAA0001
+AAA0002
+AAA0003
+
+AAB0001
+AAB0002
+
+ABA0001
+ABA0002
+Notes
+Always use 4 digits.
+Start from 0001.
+Never reuse a product code.
+Product code is permanent.
+12. Image Naming Rule
+Category Images
+
+Always:
+
+category.jpg
+
+Example:
+
+images/categories/AA-rice/category.jpg
+
+images/categories/AA-rice/AAA-basmati-rice/category.jpg
+Product Images
+
+Always:
+
+[ProductCode].jpg
+
+Example:
+
+AAA0001.jpg
+AAA0002.jpg
+ABA0001.jpg
+
+This keeps the entire system consistent:
+
+Category
+  ↓
+Subcategory
+  ↓
+Product
+
+13. Product Master Rules
 
 Every product must have:
 
@@ -194,13 +290,13 @@ AAA
 3500
 AAA0001.jpg
 Active
-11. Status Rules
+14. Status Rules
 Active
 Inactive
 Coming Soon
 Out of Stock
 Discontinued
-12. Homepage Grid Rules
+15. Homepage Grid Rules
 
 Desktop:
 
@@ -213,7 +309,7 @@ Tablet:
 Mobile:
 
 3 Columns
-13. Placeholder Rules
+16. Placeholder Rules
 
 If products do not exist:
 
@@ -231,7 +327,7 @@ placeholder.jpg
 
 until product images are added.
 
-14. Future Expansion Rules
+17. Future Expansion Rules
 
 Current:
 
@@ -254,3 +350,32 @@ C
 CA
 CAA
 CAA0001
+18. Subcategory Folder Structure
+
+Format:
+
+categories/
+└── AA-rice/
+    ├── AA-rice.html
+    │
+    ├── AAA-basmati-rice/
+    │   ├── AAA-basmati-rice.html
+    │   ├── AAA0001.html
+    │   ├── AAA0002.html
+    │   └── ...
+    │
+    ├── AAB-japanese-rice/
+    │   └── AAB-japanese-rice.html
+    │
+    └── ...
+
+Rule:
+
+Each subcategory has its own folder.
+
+Benefits:
+
+- Easier maintenance
+- Cleaner image references
+- Product pages stay grouped with their subcategory
+- Scales to thousands of products

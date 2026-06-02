@@ -40,13 +40,21 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 
 <a href="#"><i class="fab fa-youtube"></i></a>
 
-<a href="/cart/index.html" class="cart-icon">
+<div class="cart-box">
 
-🛒 Cart
+  <a href="/cart/index.html" class="cart-icon">
+    🛒 Cart (<span id="cart-count">0</span>)
+  </a>
 
-<span id="cart-count">0</span>
+  <div class="cart-total-box">
+    Total: ¥<span id="mini-cart-total">0</span>
+  </div>
 
-</a>
+  <a href="/cart/index.html" class="view-cart-btn">
+    View Cart
+  </a>
+
+</div>
 </div>
 
 </header>
@@ -288,7 +296,9 @@ Your Satisfaction, Our Pride
 </p>
 
 </footer>
-
+<!-- CART SYSTEM -->
+<script src="js/cart.js"></script>
 </body>
 
 </html>
+

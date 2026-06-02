@@ -38,13 +38,22 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 <a href="#"><i class="fab fa-instagram"></i></a>
 <a href="#"><i class="fab fa-tiktok"></i></a>
 <a href="#"><i class="fab fa-youtube"></i></a>
-<a href="/cart/index.html" class="cart-icon">
+<div class="cart-box">
 
-🛒 Cart
+  <a href="/cart/index.html" class="cart-icon">
+    🛒 Cart (<span id="cart-count">0</span>)
+  </a>
 
-<span id="cart-count">0</span>
+  <div class="cart-total-box">
+    Total: ¥<span id="mini-cart-total">0</span>
+  </div>
 
-</a>
+  <a href="/cart/index.html" class="view-cart-btn">
+    View Cart
+  </a>
+
+</div>
+</div>
 </div>
 
 </header>
@@ -172,6 +181,34 @@ alt="Rice Products">
 <p>Your Satisfaction, Our Pride</p>
 
 </footer>
+
+</body>
+</html>
+
+<footer>
+  <p>© 2026 Rice Spice Hub</p>
+</footer>
+
+<!-- ✅ ADD THIS HERE -->
+<script>
+function updateCartCount(){
+
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+  let totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+
+  let counter = document.getElementById("cart-count");
+
+  if(counter){
+    counter.textContent = totalItems;
+  }
+}
+
+document.addEventListener("DOMContentLoaded", updateCartCount);
+window.addEventListener("focus", updateCartCount);
+</script>
+<!-- CART SYSTEM -->
+<script src="../../js/cart.js"></script>
 
 </body>
 </html>

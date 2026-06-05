@@ -242,13 +242,13 @@ window.addEventListener("cartUpdated", updateUI);
 <script>
 
 const SHEET_URL =
-"https://docs.google.com/spreadsheets/d/e/2PACX-1vRoQalFgQTr6N2ZSdDyYg1nXHZryAgG65CI8o-Mf_789bNuxGolIAahgWFW9G-_FvTd4ilsNsEuNzBP/pub?gid=0&single=true&output=csv";
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vRoQalFgQTr6N2ZSdDyYg1nXHZryAgG65CI8o-Mf_789bNuxGolIAahgWFW9G-_FvTd4ilsNsEuNzBP/pub?output=csv";
 
 fetch(SHEET_URL)
 .then(response => response.text())
 .then(csv => {
 
-    const rows = csv.split("\n").slice(1);
+    const rows = csv.trim().split("\n").slice(1);
 
     const container =
         document.getElementById("product-list");
@@ -282,25 +282,24 @@ fetch(SHEET_URL)
             <p class="tax-info">税込価格 (Tax Included)</p>
 
             <p class="delivery-info">
-            🚚 FREE Delivery on Orders Over ¥6,000
+                🚚 FREE Delivery on Orders Over ¥6,000
             </p>
 
             <button class="cart-btn"
             onclick="addToCart(
-            '${id}',
-            '${name}',
-            ${price},
-            '../../../images/products/AA-rice/AAA-basmati-rice/${image}'
+                '${id}',
+                '${name}',
+                ${price},
+                '../../../images/products/AA-rice/AAA-basmati-rice/${image}'
             )">
-
-            🛒 ADD TO CART
-
+                🛒 ADD TO CART
             </button>
 
         </div>
         `;
     });
 
-});
+})
+.catch(error => console.error(error));
 
 </script>

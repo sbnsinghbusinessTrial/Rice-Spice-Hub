@@ -1,0 +1,14 @@
+[
+  {
+    "id":"AAA0001",
+    "name":"India Gate Basmati Rice 5kg",
+    "price":2480,
+    "image":"../../../images/products/AA-rice/AAA-basmati-rice/AAA0001.jpg"
+  },
+  {
+    "id":"AAA0002",
+    "name":"Daawat Basmati Rice 5kg",
+    "price":2380,
+    "image":"../../../images/products/AA-rice/AAA-basmati-rice/AAA0002.jpg"
+  }
+]

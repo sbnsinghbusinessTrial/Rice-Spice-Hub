@@ -264,51 +264,21 @@ onclick="addToCart(
 <p>Your Satisfaction, Our Pride</p>
 </footer>
 
-<!-- ✅ CART SYSTEM (IMPORTANT FIX) -->
-<script>
-
-function addToCart(id, name, price, image){
-
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  let existing = cart.find(item => item.id === id);
-
-  if(existing){
-    existing.quantity += 1;
-  } else {
-    cart.push({
-      id: id,
-      name: name,
-      price: Number(price),
-      image: image,
-      quantity: 1
-    });
-  }
-
-  localStorage.setItem("cart", JSON.stringify(cart));
-
-  updateCartCount();
-}
-
-function updateCartCount(){
-
-  let cart = JSON.parse(localStorage.getItem("cart")) || [];
-
-  let totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-
-  let counter = document.getElementById("cart-count");
-
-  if(counter){
-    counter.textContent = totalItems;
-  }
-}
-
-// run on page load
-document.addEventListener("DOMContentLoaded", updateCartCount);
-
 
 </script>
 <script src="../../../js/cart.js"></script>
+<div class="sticky-cart-bar">
+
+    <div class="sticky-cart-info">
+        🛒 <span id="sticky-cart-count">0</span> Items |
+        ¥<span id="sticky-cart-total">0</span>
+    </div>
+
+    <a href="/cart/index.html" class="sticky-cart-btn">
+        View Cart
+    </a>
+
+</div>
 </body>
 </html>
 

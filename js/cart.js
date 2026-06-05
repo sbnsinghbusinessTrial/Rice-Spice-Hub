@@ -191,6 +191,7 @@ function updateUI(){
     let count = cart.reduce((sum, item) => sum + item.quantity, 0);
     let total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 
+    // Existing Header UI
     let countEl = document.getElementById("cart-count");
     let totalEl = document.getElementById("mini-cart-total");
 
@@ -200,6 +201,18 @@ function updateUI(){
 
     if(totalEl){
         totalEl.textContent = total.toLocaleString();
+    }
+
+    // Sticky Cart Bar
+    let stickyCount = document.getElementById("sticky-cart-count");
+    let stickyTotal = document.getElementById("sticky-cart-total");
+
+    if(stickyCount){
+        stickyCount.textContent = count;
+    }
+
+    if(stickyTotal){
+        stickyTotal.textContent = total.toLocaleString();
     }
 
     updateMiniCart();
@@ -225,3 +238,69 @@ function toggleMiniCart(){
 document.addEventListener("DOMContentLoaded", updateUI);
 window.addEventListener("focus", updateUI);
 window.addEventListener("cartUpdated", updateUI);
+
+<script>
+
+const SHEET_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vRoQalFgQTr6N2ZSdDyYg1nXHZryAgG65CI8o-Mf_789bNuxGolIAahgWFW9G-_FvTd4ilsNsEuNzBP/pub?gid=0&single=true&output=csv";
+
+fetch(SHEET_URL)
+.then(response => response.text())
+.then(csv => {
+
+    const rows = csv.split("\n").slice(1);
+
+    const container =
+        document.getElementById("product-list");
+
+    rows.forEach(row => {
+
+        const cols = row.split(",");
+
+        const id = cols[0]?.trim();
+        const category = cols[1]?.trim();
+        const subcategory = cols[2]?.trim();
+        const name = cols[3]?.trim();
+        const price = cols[4]?.trim();
+        const image = cols[5]?.trim();
+        const status = cols[7]?.trim();
+
+        if(subcategory !== "AAA") return;
+        if(status !== "Active") return;
+
+        container.innerHTML += `
+        <div class="product-card">
+
+            <img src="../../../images/products/AA-rice/AAA-basmati-rice/${image}" alt="${id}">
+
+            <h3>${name}</h3>
+
+            <p class="product-code">${id}</p>
+
+            <p class="price">¥${Number(price).toLocaleString()}</p>
+
+            <p class="tax-info">税込価格 (Tax Included)</p>
+
+            <p class="delivery-info">
+            🚚 FREE Delivery on Orders Over ¥6,000
+            </p>
+
+            <button class="cart-btn"
+            onclick="addToCart(
+            '${id}',
+            '${name}',
+            ${price},
+            '../../../images/products/AA-rice/AAA-basmati-rice/${image}'
+            )">
+
+            🛒 ADD TO CART
+
+            </button>
+
+        </div>
+        `;
+    });
+
+});
+
+</script>

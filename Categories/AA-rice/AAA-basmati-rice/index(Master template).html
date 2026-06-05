@@ -109,6 +109,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 </footer>
 
 <script>
+
 const SHEET_URL =
 "https://docs.google.com/spreadsheets/d/e/2PACX-1vRoQalFgQTr6N2ZSdDyYg1nXHZryAgG65CI8o-Mf_789bNuxGolIAahgWFW9G-_FvTd4ilsNsEuNzBP/pub?output=csv";
 
@@ -116,10 +117,60 @@ fetch(SHEET_URL)
 .then(response => response.text())
 .then(csv => {
 
-    console.log(csv); // debug
+    const rows = csv
+        .replace(/\r/g, "")
+        .trim()
+        .split("\n")
+        .slice(1);
 
-});
+    const container =
+        document.getElementById("product-list");
+
+    rows.forEach(row => {
+
+        const cols = row.split(",");
+
+        const id = cols[0]?.trim();
+        const category = cols[1]?.trim();
+        const subcategory = cols[2]?.trim();
+        const name = cols[3]?.trim();
+        const price = cols[4]?.trim();
+        const image = cols[5]?.trim();
+        const status = cols[7]?.trim();
+        
+        if(subcategory !== "AAA") return;
+        if(status !== "Active") return;
+
+        container.innerHTML += `
+        <div class="product-card">
+
+            <img src="../../../images/products/AA-rice/AAA-basmati-rice/${image}" alt="${id}">
+
+            <h3>${name}</h3>
+
+            <p class="product-code">${id}</p>
+
+            <p class="price">¥${Number(price).toLocaleString()}</p>
+
+            <button class="cart-btn"
+            onclick="addToCart(
+                '${id}',
+                '${name}',
+                ${price},
+                '../../../images/products/AA-rice/AAA-basmati-rice/${image}'
+            )">
+                🛒 ADD TO CART
+            </button>
+
+        </div>
+        `;
+    });
+
+})
+.catch(error => console.error(error));
+
 </script>
+
 
 <script src="../../../js/cart.js"></script>
 <div class="sticky-cart-bar">

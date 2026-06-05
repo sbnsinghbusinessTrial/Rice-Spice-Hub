@@ -6,7 +6,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Basmati Rice - Rice Spice Hub</title>
+<title>Dal, Lentils & Beans - Rice Spice Hub</title>
 
 <link rel="stylesheet" href="../../../css/style.css">
 
@@ -73,11 +73,11 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 <!-- HERO -->
 <section class="hero">
 
-<img src="../../../images/categories/AA-rice/AAA-basmati-rice.jpg" alt="Basmati Rice">
+<img src="../../../images/categories/AB-rice/ABA-lentils.jpg" alt="Dal, Lentils & Beans">
 
 <div class="hero-content">
-<h1>Basmati Rice</h1>
-<p>Premium Long Grain Rice Collection</p>
+<h1>Dal, Lentils & Beans</h1>
+<p>Select your preferred Dal category</p>
 </div>
 
 </section>
@@ -86,16 +86,16 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 <section style="padding:20px;text-align:center;">
 <a href="../../../index.html">Home</a>
 &nbsp;>&nbsp;
-<a href="../index.html">Rice</a>
+<a href="../index.html">Dal, Lentils & Beans</a>
 &nbsp;>&nbsp;
-<strong>Basmati Rice</strong>
+<strong>Dal, Lentils & Beans</strong>
 </section>
 
 <!-- PRODUCTS SECTION -->
 <section class="categories">
 
-<h2>Basmati Rice Products</h2>
-<p class="section-subtitle">Choose your preferred rice product</p>
+<h2>Dal, Lentils & Beans Products</h2>
+<p class="section-subtitle">Choose your preferred Dal, Lentils & Beans product</p>
 
 <div class="category-grid" id="product-list">
 </div>
@@ -138,13 +138,13 @@ fetch(SHEET_URL)
         const image = cols[5]?.trim();
         const status = cols[7]?.trim();
         
-        if(subcategory !== "AAA") return;
+        if(subcategory !== "ABA") return;
         if(status !== "Active") return;
 
         container.innerHTML += `
         <div class="product-card">
 
-            <img src="../../../images/products/AA-rice/AAA-basmati-rice/${image}" alt="${id}">
+            <img src="../../../images/products/AB-dal-lentils-beans/ABA-lentils/${image}" alt="${id}">
 
             <h3>${name}</h3>
 
@@ -157,7 +157,7 @@ fetch(SHEET_URL)
                 '${id}',
                 '${name}',
                 ${price},
-                '../../../images/products/AA-rice/AAA-basmati-rice/${image}'
+                '../../../images/products/AB-dal-lentils-beans/ABA-lentils/${image}'
             )">
                 🛒 ADD TO CART
             </button>

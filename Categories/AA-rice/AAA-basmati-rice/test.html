@@ -100,8 +100,6 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 <div class="category-grid" id="product-list">
 </div>
 
-</div>
-
 </section>
 
 <!-- FOOTER -->
@@ -110,8 +108,19 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
 <p>Your Satisfaction, Our Pride</p>
 </footer>
 
+<script>
+const SHEET_URL =
+"https://docs.google.com/spreadsheets/d/e/2PACX-1vRoQalFgQTr6N2ZSdDyYg1nXHZryAgG65CI8o-Mf_789bNuxGolIAahgWFW9G-_FvTd4ilsNsEuNzBP/pub?output=csv";
 
+fetch(SHEET_URL)
+.then(response => response.text())
+.then(csv => {
+
+    console.log(csv); // debug
+
+});
 </script>
+
 <script src="../../../js/cart.js"></script>
 <div class="sticky-cart-bar">
 
@@ -120,7 +129,7 @@ href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
         ¥<span id="sticky-cart-total">0</span>
     </div>
 
-    <a href="/cart/index.html" class="sticky-cart-btn">
+    <a href="../../..//cart/index.html" class="sticky-cart-btn">
         View Cart
     </a>
 

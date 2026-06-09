@@ -89,118 +89,126 @@ h1{
 
 <script>
 
-const API_URL =
-"https://script.google.com/macros/s/AKfycbxL1aNFWUU7KBsdrH4cQMtLu_ORljcNSAqADIsH1mV_qLZZEtTyAkfWhvTdYaxqR4aMzQ/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbxL1aNFWUU7KBsdrH4cQMtLu_ORljcNSAqADIsH1mV_qLZZEtTyAkfWhvTdYaxqR4aMzQ/exec";
 
 let allOrders = [];
 let allItems = [];
 
-fetch(API_URL)
-.then(res => res.json())
-.then(data => {
+// =======================
+// LOAD ORDERS
+// =======================
+function loadOrders() {
 
-    allOrders = data.orders;
-    allItems = data.items;
+    fetch(API_URL)
+        .then(res => res.json())
+        .then(data => {
 
-    renderOrders();
+            allOrders = data.orders || [];
+            allItems = data.items || [];
 
-})
-.catch(err => console.error(err));
+            renderOrders();
 
-function renderOrders(){
+        })
+        .catch(err => console.error("Fetch Error:", err));
 
-    const container =
-        document.getElementById("orders");
-
-    container.innerHTML = "";
-
-    allOrders.reverse().forEach(order => {
-
-        container.innerHTML += `
-        <div class="order-card"
-             onclick="showOrder('${order.orderNumber}')">
-
-            <strong>${order.orderNumber}</strong><br>
-
-            ${order.name}<br>
-
-            ¥${Number(order.total).toLocaleString()}<br>
-
-            <span class="status">
-            ${order.status || 'Pending'}
-            </span>
-
-        </div>
-        `;
-    });
 }
 
-function showOrder(orderNo){
+// Initial load
+loadOrders();
 
-    const order =
-        allOrders.find(
-            o => o.orderNumber === orderNo
-        );
+// Auto refresh every 10 seconds
+setInterval(loadOrders, 10000);
 
-    const items =
-        allItems.filter(
-            i => i.orderNumber === orderNo
-        );
+
+// =======================
+// RENDER ORDER LIST
+// =======================
+function renderOrders() {
+
+    const container = document.getElementById("orders");
+    container.innerHTML = "";
+
+    if (allOrders.length === 0) {
+        container.innerHTML = "<p>No orders found</p>";
+        return;
+    }
+
+    // newest first (safe copy)
+    [...allOrders].reverse().forEach(order => {
+
+        container.innerHTML += `
+            <div class="order-card"
+                 onclick="showOrder('${order.orderNumber}')">
+
+                <strong>${order.orderNumber}</strong><br>
+                ${order.name}<br>
+                ¥${Number(order.total).toLocaleString()}<br>
+
+                <span class="status">
+                    ${order.status || 'Pending'}
+                </span>
+
+            </div>
+        `;
+
+    });
+
+}
+
+
+// =======================
+// SHOW ORDER DETAILS
+// =======================
+function showOrder(orderNo) {
+
+    const order = allOrders.find(o => o.orderNumber === orderNo);
+    const items = allItems.filter(i => i.orderNumber === orderNo);
+
+    if (!order) {
+        document.getElementById("details").innerHTML = "<p>Order not found</p>";
+        return;
+    }
 
     let html = `
-    <h3>${order.orderNumber}</h3>
+        <h3>${order.orderNumber}</h3>
 
-    <p><b>Date:</b> ${order.date}</p>
+        <p><b>Date:</b> ${order.date}</p>
+        <p><b>Name:</b> ${order.name}</p>
+        <p><b>Phone:</b> ${order.phone}</p>
+        <p><b>Email:</b> ${order.email}</p>
+        <p><b>Address:</b> ${order.address}</p>
 
-    <p><b>Name:</b> ${order.name}</p>
-
-    <p><b>Phone:</b> ${order.phone}</p>
-
-    <p><b>Email:</b> ${order.email}</p>
-
-    <p><b>Address:</b> ${order.address}</p>
-
-    <hr>
-
-    <h3>Items</h3>
+        <hr>
+        <h3>Items</h3>
     `;
 
     items.forEach(item => {
 
         html += `
-        <div class="item-row">
+            <div class="item-row">
 
-            ${item.productName}
+                ${item.name || item.productName || "Item"}<br>
 
-            <br>
+                Qty: ${item.quantity || item.qty || 1}
+                × ¥${Number(item.price).toLocaleString()}
 
-            Qty:
-            ${item.quantity}
+                <br>
 
-            ×
+                Total: ¥${Number(item.lineTotal || (item.price * item.quantity)).toLocaleString()}
 
-            ¥${Number(item.price).toLocaleString()}
-
-            <br>
-
-            Total:
-            ¥${Number(item.lineTotal).toLocaleString()}
-
-        </div>
+            </div>
         `;
+
     });
 
     html += `
-    <hr>
-
-    <h2>
-    Order Total:
-    ¥${Number(order.total).toLocaleString()}
-    </h2>
+        <hr>
+        <h2>
+            Order Total: ¥${Number(order.total).toLocaleString()}
+        </h2>
     `;
 
-    document.getElementById("details")
-        .innerHTML = html;
+    document.getElementById("details").innerHTML = html;
 }
 
 </script>

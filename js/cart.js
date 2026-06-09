@@ -22,7 +22,7 @@ function saveCart(cart){
 // -------------------------------
 // ADD TO CART
 // -------------------------------
-function addToCart(id, name, price, image){
+function addToCart(id, name, price, image, category){
 
     let cart = getCart();
 
@@ -36,6 +36,7 @@ function addToCart(id, name, price, image){
             name,
             price: Number(price),
             image,
+            category,
             quantity: 1
         });
     }

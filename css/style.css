@@ -866,4 +866,20 @@ margin-top:40px;
 
     font-size:13px;
 }
+.checkout-message{
+    text-align:center;
+    font-weight:bold;
+    color:#0a7f3f;
+    margin-top:20px;
+    font-size:18px;
 }
+
+.secure-message{
+    text-align:center;
+    font-size:14px;
+    color:#666;
+    margin:5px 0 10px;
+}
+
+}
+

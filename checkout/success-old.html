@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Order Successful - Rice Spice Hub</title>
+
+<link rel="stylesheet" href="css/style.css">
+
+<style>
+
+.success-box{
+max-width:700px;
+margin:50px auto;
+padding:30px;
+text-align:center;
+}
+
+.success-box h1{
+margin-bottom:20px;
+}
+
+.success-btn{
+display:inline-block;
+margin-top:20px;
+padding:12px 24px;
+background:#0a7f3f;
+color:white;
+text-decoration:none;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="success-box">
+
+<h1>Thank You!</h1>
+
+<p>Your order has been submitted successfully.</p>
+
+<p>
+Order Number:
+<strong id="orderNumber"></strong>
+</p>
+
+<a href="../index.html" class="success-btn">
+Continue Shopping
+</a>
+
+</div>
+
+<script>
+
+document.getElementById("orderNumber")
+.textContent =
+localStorage.getItem("lastOrderNumber") || "";
+
+</script>
+
+</body>
+
+</html>

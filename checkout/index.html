@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="en">
 
 <head>
@@ -8,52 +9,194 @@
 
 <title>Checkout - Rice Spice Hub</title>
 
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="../css/style.css">
 
 <style>
 
+body{
+    font-family:Arial,sans-serif;
+    background:#f5f5f5;
+    margin:0;
+    padding:0;
+}
+
 .checkout-container{
-max-width:900px;
-margin:auto;
-padding:30px;
+    max-width:1000px;
+    margin:30px auto;
+    background:#ffffff;
+    padding:30px;
+    border-radius:10px;
+    box-shadow:0 2px 10px rgba(0,0,0,0.1);
+}
+
+.branding{
+    text-align:center;
+    margin-bottom:25px;
+}
+
+.branding img{
+    width:120px;
+    max-width:100%;
+    margin-bottom:10px;
+}
+
+.branding h1{
+    margin:0;
+    font-size:32px;
+}
+
+.branding .tagline{
+    margin:5px 0;
+    color:#444;
+    font-weight:bold;
+}
+
+.branding .categories{
+    color:#666;
+    font-size:14px;
+}
+
+.progress{
+    text-align:center;
+    background:#f8f8f8;
+    padding:15px;
+    border-radius:8px;
+    margin-bottom:25px;
+    font-size:18px;
+}
+
+.section-card{
+    background:#fff;
+    border:1px solid #ddd;
+    border-radius:8px;
+    padding:20px;
+    margin-bottom:25px;
+}
+
+.section-card h2{
+    margin-top:0;
 }
 
 .checkout-item{
-display:flex;
-justify-content:space-between;
-padding:10px 0;
-border-bottom:1px solid #ddd;
+    display:flex;
+    justify-content:space-between;
+    gap:15px;
+    padding:12px 0;
+    border-bottom:1px solid #eee;
 }
 
-.checkout-total{
-font-size:24px;
-font-weight:bold;
-margin-top:20px;
+.checkout-item:last-child{
+    border-bottom:none;
 }
 
-.checkout-form{
-margin-top:30px;
+.summary-row{
+    display:flex;
+    justify-content:space-between;
+    margin-top:10px;
+}
+
+.grand-total{
+    margin-top:15px;
+    font-size:24px;
+    font-weight:bold;
+    color:#0a7f3f;
 }
 
 .checkout-form input,
 .checkout-form textarea{
-width:100%;
-padding:12px;
+    width:100%;
+    padding:12px;
+    margin-bottom:15px;
+    box-sizing:border-box;
+    border:1px solid #ccc;
+    border-radius:5px;
+}
+
+.notice-box{
+    background:#f8fff8;
+    border:1px solid #d6eadb;
+    padding:15px;
+    border-radius:8px;
+}
+
+.button-row{
+    display:flex;
+    gap:15px;
+    flex-wrap:wrap;
+    margin-top:25px;
+}
+
+.continue-btn{
+    background:#666;
+    color:white;
+    text-decoration:none;
+    padding:15px 25px;
+    border-radius:5px;
+}
+
+.place-order-btn{
+    background:#0a7f3f;
+    color:white;
+    border:none;
+    padding:15px 30px;
+    border-radius:5px;
+    font-size:18px;
+    cursor:pointer;
+}
+
+.checkout-action-area{
+text-align:center;
+margin-top:25px;
+}
+
+.place-order-message{
+color:#666;
 margin-bottom:15px;
-box-sizing:border-box;
+text-align:center;
 }
 
-.checkout-btn{
-background:#0a7f3f;
-color:white;
-border:none;
-padding:15px 25px;
-font-size:18px;
-cursor:pointer;
+.secure-message{
+color:#666;
+margin-bottom:20px;
+text-align:center;
 }
 
-.checkout-btn:hover{
-opacity:0.9;
+.place-order-btn{
+display:inline-block;
+}
+
+
+.secure-message{
+color:#666;
+margin-bottom:20px;
+}
+
+.place-order-btn{
+display;
+}
+
+.empty-cart{
+    text-align:center;
+    padding:20px;
+}
+
+@media(max-width:768px){
+
+    .checkout-container{
+        margin:10px;
+        padding:20px;
+    }
+
+    .button-row{
+        flex-direction:column;
+    }
+
+    .continue-btn,
+    .place-order-btn{
+        width:100%;
+        text-align:center;
+    }
+
 }
 
 </style>
@@ -64,51 +207,115 @@ opacity:0.9;
 
 <div class="checkout-container">
 
-<h1>Checkout</h1>
+```
+<div class="branding">
 
-<h2>Your Order</h2>
+    <img src="../images/logo.jpg" alt="Rice Spice Hub">
 
-<div id="orderSummary"></div>
+    <h1>Rice Spice Hub</h1>
 
-<div class="checkout-total">
-Total: ¥<span id="orderTotal">0</span>
+    <p class="tagline">
+        Your Satisfaction, Our Pride
+    </p>
+
+    <p class="categories">
+        Foods • Fashion • Services • Online Shopping
+    </p>
+
 </div>
 
-<hr style="margin:30px 0;">
+<div class="progress">
+    🛒 Cart → 📋 Checkout → ✅ Complete
+</div>
 
-<h2>Customer Information</h2>
+<div class="section-card">
 
-<div class="checkout-form">
+    <h2>Order Summary</h2>
 
-<input
-type="text"
-id="name"
-placeholder="Full Name"
-required>
+    <div id="orderSummary"></div>
 
-<input
-type="text"
-id="phone"
-placeholder="Phone Number"
-required>
+    <div id="summaryTotals"></div>
 
-<input
-type="email"
-id="email"
-placeholder="Email Address">
+</div>
 
-<textarea
-id="address"
-rows="4"
-placeholder="Delivery Address"></textarea>
+<div class="section-card">
+
+    <h2>Delivery Information</h2>
+
+    <div class="checkout-form">
+
+        <input
+        type="text"
+        id="name"
+        placeholder="Full Name *">
+
+        <input
+        type="text"
+        id="phone"
+        placeholder="Phone Number *">
+
+        <input
+        type="email"
+        id="email"
+        placeholder="Email Address">
+
+        <textarea
+        id="address"
+        rows="4"
+        placeholder="Delivery Address *"></textarea>
+
+    </div>
+
+    <div class="notice-box">
+
+        ✓ Tax Included<br>
+        🚚 Free Delivery On Orders Over ¥6,000<br>
+        🔒 Secure Order Processing
+
+    </div>
+
+</div>
+
+<div class="button-row">
+
+    <div class="button-row">
+
+<div class="button-row">
+
+<a href="../cart/index.html"
+   class="continue-btn">
+
+   ← Back To Cart
+
+</a>
+
+</div>
+
+<div class="checkout-action-area">
+
+<p class="place-order-message">
+
+    Please review your delivery information carefully before placing your order.
+
+</p>
+
+<p class="secure-message">
+
+    🔒 Secure Checkout • Privacy Protected • No Hidden Fees
+
+</p>
 
 <button
-class="checkout-btn"
+class="place-order-btn"
 onclick="submitOrder()">
 
-Place Order
+    PLACE ORDER
 
 </button>
+
+</div>
+
+
 
 </div>
 
@@ -126,150 +333,235 @@ let total = 0;
 
 function renderCheckout(){
 
-const summary =
-document.getElementById("orderSummary");
+    const summary =
+    document.getElementById("orderSummary");
 
-summary.innerHTML = "";
+    const totals =
+    document.getElementById("summaryTotals");
 
-total = 0;
+    summary.innerHTML = "";
 
-if(cart.length === 0){
+    total = 0;
 
-summary.innerHTML =
-"<p>Your cart is empty.</p>";
+    if(cart.length === 0){
 
-return;
+        summary.innerHTML =
+        "<p class='empty-cart'>Your cart is empty.</p>";
 
-}
+        totals.innerHTML = "";
 
-cart.forEach(item => {
+        return;
+    }
 
-const lineTotal =
-item.price * item.quantity;
+    let itemCount = 0;
 
-total += lineTotal;
+    cart.forEach(item => {
 
-summary.innerHTML += `
+        const lineTotal =
+        item.price * item.quantity;
 
-<div class="checkout-item">
+        total += lineTotal;
 
-<div>
-<strong>${item.name}</strong>
-<br>
-${item.quantity} × ¥${item.price.toLocaleString()}
-</div>
+        itemCount += item.quantity;
 
-<div>
-¥${lineTotal.toLocaleString()}
-</div>
+        summary.innerHTML += `
 
-</div>
+        <div class="checkout-item">
 
-`;
+            <div>
 
-});
+                <strong>${item.name}</strong>
 
-document.getElementById("orderTotal")
-.textContent =
-total.toLocaleString();
+                <br>
+
+                Qty: ${item.quantity}
+
+                ×
+
+                ¥${item.price.toLocaleString()}
+
+            </div>
+
+            <div>
+
+                ¥${lineTotal.toLocaleString()}
+
+            </div>
+
+        </div>
+
+        `;
+
+    });
+
+    totals.innerHTML = `
+
+    <div class="summary-row">
+        <span>Items</span>
+        <span>${itemCount}</span>
+    </div>
+
+    <div class="summary-row">
+        <span>Subtotal</span>
+        <span>¥${total.toLocaleString()}</span>
+    </div>
+
+    <div class="summary-row">
+        <span>Shipping</span>
+        <span>FREE</span>
+    </div>
+
+    <div class="grand-total">
+        Total: ¥${total.toLocaleString()}
+    </div>
+
+    `;
 
 }
 
 function submitOrder(){
 
-if(cart.length === 0){
+    if(cart.length === 0){
 
-alert("Cart is empty");
+        alert("Cart is empty");
+        return;
 
-return;
+    }
+
+    const name =
+    document.getElementById("name").value.trim();
+
+    const phone =
+    document.getElementById("phone").value.trim();
+
+    const email =
+    document.getElementById("email").value.trim();
+
+    const address =
+    document.getElementById("address").value.trim();
+
+    if(!name){
+
+        alert("Please enter your name");
+        return;
+
+    }
+
+    if(!phone){
+
+        alert("Please enter your phone number");
+        return;
+
+    }
+
+    if(!address){
+
+        alert("Please enter your address");
+        return;
+
+    }
+
+    const today = new Date();
+
+    const datePart =
+    today.toISOString()
+    .slice(0,10)
+    .replace(/-/g,"");
+
+    const randomPart =
+    Math.floor(Math.random()*9000 + 1000);
+
+    const order = {
+
+        orderNumber:
+        "RSH-" + datePart + "-" + randomPart,
+
+        date:
+        today.toLocaleString(),
+
+        name,
+        phone,
+        email,
+        address,
+
+        total,
+
+        items:
+        JSON.stringify(cart)
+
+    };
+
+    fetch(API_URL, {
+
+        method:"POST",
+
+        body:JSON.stringify(order)
+
+    })
+    .then(response => response.text())
+    .then(data => {
+
+        localStorage.setItem(
+            "lastOrderNumber",
+            order.orderNumber
+        );
+
+        localStorage.setItem(
+            "lastCustomerName",
+            name
+        );
+        
+        localStorage.setItem(
+            "customerName",
+            name
+        );
+
+        localStorage.setItem(
+            "customerPhone",
+            phone
+        );
+
+        localStorage.setItem(
+            "customerEmail",
+            email
+        );
+
+        localStorage.setItem(
+            "customerAddress",
+            address
+        );
+
+        localStorage.removeItem("cart");
+
+        window.location.href =
+        "success.html";
+
+    })
+    .catch(error => {
+
+        console.error(error);
+
+        alert("Failed to submit order.");
+
+    });
 
 }
 
-const name =
-document.getElementById("name").value.trim();
+document.getElementById("name").value =
+localStorage.getItem("customerName") || "";
 
-const phone =
-document.getElementById("phone").value.trim();
+document.getElementById("phone").value =
+localStorage.getItem("customerPhone") || "";
 
-const email =
-document.getElementById("email").value.trim();
+document.getElementById("email").value =
+localStorage.getItem("customerEmail") || "";
 
-const address =
-document.getElementById("address").value.trim();
-
-if(!name){
-
-alert("Please enter your name");
-
-return;
-
-}
-
-if(!phone){
-
-alert("Please enter your phone number");
-
-return;
-
-}
-
-const order = {
-
-orderNumber:
-"RSH-" + Date.now(),
-
-date:
-new Date().toLocaleString(),
-
-name,
-phone,
-email,
-address,
-
-total,
-
-items:
-JSON.stringify(cart)
-
-};
-
-fetch(API_URL, {
-
-method: "POST",
-
-body: JSON.stringify(order)
-
-})
-.then(response => response.text())
-.then(data => {
-
-localStorage.setItem(
-"lastOrderNumber",
-order.orderNumber
-);
-
-localStorage.removeItem("cart");
-
-alert("Order submitted successfully!");
-
-window.location.href =
-"success.html";
-
-})
-.catch(error => {
-
-console.error(error);
-
-alert("Failed to submit order.");
-
-});
-
-}
+document.getElementById("address").value =
+localStorage.getItem("customerAddress") || "";
 
 renderCheckout();
 
 </script>
 
 </body>
-
 </html>

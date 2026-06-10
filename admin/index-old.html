@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Rice Spice Hub - Admin Dashboard</title>
+
+<style>
+
+body{
+    font-family:Arial,sans-serif;
+    margin:0;
+    padding:20px;
+    background:#f5f5f5;
+}
+
+h1{
+    margin-bottom:20px;
+}
+
+.container{
+    display:flex;
+    gap:20px;
+}
+
+.orders-panel{
+    width:35%;
+    background:white;
+    border-radius:10px;
+    padding:15px;
+    overflow-y:auto;
+    max-height:80vh;
+}
+
+.details-panel{
+    flex:1;
+    background:white;
+    border-radius:10px;
+    padding:20px;
+}
+
+.order-card{
+    border:1px solid #ddd;
+    padding:10px;
+    margin-bottom:10px;
+    cursor:pointer;
+    border-radius:8px;
+}
+
+.order-card:hover{
+    background:#f7f7f7;
+}
+
+.status{
+    color:orange;
+    font-weight:bold;
+}
+
+.item-row{
+    border-bottom:1px solid #eee;
+    padding:8px 0;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Rice Spice Hub Admin Dashboard</h1>
+
+<div class="container">
+
+    <div class="orders-panel">
+        <h2>Orders</h2>
+        <div id="orders"></div>
+    </div>
+
+    <div class="details-panel">
+        <h2>Order Details</h2>
+        <div id="details">
+            Select an order
+        </div>
+    </div>
+
+</div>
+
+<script>
+
+const API_URL = "https://script.google.com/macros/s/AKfycbxL1aNFWUU7KBsdrH4cQMtLu_ORljcNSAqADIsH1mV_qLZZEtTyAkfWhvTdYaxqR4aMzQ/exec";
+
+let allOrders = [];
+let allItems = [];
+
+// =======================
+// LOAD ORDERS
+// =======================
+function loadOrders() {
+
+    fetch(API_URL)
+        .then(res => res.json())
+        .then(data => {
+
+            allOrders = data.orders || [];
+            allItems = data.items || [];
+
+            renderOrders();
+
+        })
+        .catch(err => console.error("Fetch Error:", err));
+
+}
+
+// Initial load
+loadOrders();
+
+// Auto refresh every 10 seconds
+setInterval(loadOrders, 10000);
+
+
+// =======================
+// RENDER ORDER LIST
+// =======================
+function renderOrders() {
+
+    const container = document.getElementById("orders");
+    container.innerHTML = "";
+
+    if (allOrders.length === 0) {
+        container.innerHTML = "<p>No orders found</p>";
+        return;
+    }
+
+    // newest first (safe copy)
+    [...allOrders].reverse().forEach(order => {
+
+        container.innerHTML += `
+            <div class="order-card"
+                 onclick="showOrder('${order.orderNumber}')">
+
+                <strong>${order.orderNumber}</strong><br>
+                ${order.name}<br>
+                ¥${Number(order.total).toLocaleString()}<br>
+
+                <span class="status">
+                    ${order.status || 'Pending'}
+                </span>
+
+            </div>
+        `;
+
+    });
+
+}
+
+
+// =======================
+// SHOW ORDER DETAILS
+// =======================
+function showOrder(orderNo) {
+
+    const order = allOrders.find(o => o.orderNumber === orderNo);
+    const items = allItems.filter(i => i.orderNumber === orderNo);
+
+    if (!order) {
+        document.getElementById("details").innerHTML = "<p>Order not found</p>";
+        return;
+    }
+
+    let html = `
+        <h3>${order.orderNumber}</h3>
+
+        <p><b>Date:</b> ${order.date}</p>
+        <p><b>Name:</b> ${order.name}</p>
+        <p><b>Phone:</b> ${order.phone}</p>
+        <p><b>Email:</b> ${order.email}</p>
+        <p><b>Address:</b> ${order.address}</p>
+
+        <hr>
+        <h3>Items</h3>
+    `;
+
+    items.forEach(item => {
+
+        html += `
+            <div class="item-row">
+
+                ${item.name || item.productName || "Item"}<br>
+
+                Qty: ${item.quantity || item.qty || 1}
+                × ¥${Number(item.price).toLocaleString()}
+
+                <br>
+
+                Total: ¥${Number(item.lineTotal || (item.price * item.quantity)).toLocaleString()}
+
+            </div>
+        `;
+
+    });
+
+    html += `
+        <hr>
+        <h2>
+            Order Total: ¥${Number(order.total).toLocaleString()}
+        </h2>
+    `;
+
+    document.getElementById("details").innerHTML = html;
+}
+
+</script>
+
+</body>
+</html>

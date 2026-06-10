@@ -1,217 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Rice Spice Hub - Admin Dashboard</title>
-
+<title>Rice Spice Hub Admin Dashboard V3</title>
 <style>
+body{font-family:Arial,sans-serif;margin:0;background:#f5f5f5}
+.header{background:#0a7f3f;color:#fff;padding:15px;text-align:center}
+.container{padding:15px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:15px}
+.card{background:#fff;padding:15px;border-radius:10px;text-align:center}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:15px}
+.toolbar input,.toolbar button,.toolbar select{padding:10px}
+.layout{display:flex;gap:15px}
+.orders{width:35%;background:#fff;border-radius:10px;padding:10px;max-height:80vh;overflow:auto}
+.details{flex:1;background:#fff;border-radius:10px;padding:15px}
+.order-card{border:1px solid #ddd;padding:10px;border-radius:8px;margin-bottom:10px;cursor:pointer}
+.pending{color:#b36b00;font-weight:bold}
+.processing{color:#0066cc;font-weight:bold}
+.delivery{color:#6a1b9a;font-weight:bold}
+.completed{color:#0a7f3f;font-weight:bold}
+.item-row{border-bottom:1px solid #eee;padding:8px 0}
+@media(max-width:900px){.layout{flex-direction:column}.orders{width:auto}}
 
-body{
-    font-family:Arial,sans-serif;
-    margin:0;
-    padding:20px;
-    background:#f5f5f5;
-}
-
-h1{
-    margin-bottom:20px;
-}
-
-.container{
+.admin-header{
     display:flex;
+    align-items:center;
     gap:20px;
-}
-
-.orders-panel{
-    width:35%;
     background:white;
-    border-radius:10px;
-    padding:15px;
-    overflow-y:auto;
-    max-height:80vh;
-}
-
-.details-panel{
-    flex:1;
-    background:white;
-    border-radius:10px;
     padding:20px;
+    border-radius:12px;
+    margin-bottom:20px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.08);
 }
 
-.order-card{
-    border:1px solid #ddd;
-    padding:10px;
-    margin-bottom:10px;
-    cursor:pointer;
-    border-radius:8px;
+.admin-logo{
+    width:80px;
+    height:80px;
+    object-fit:contain;
 }
 
-.order-card:hover{
-    background:#f7f7f7;
+.admin-header h1{
+    margin:0;
+    color:#0a7f3f;
 }
 
-.status{
-    color:orange;
+.admin-tagline{
+    margin:5px 0;
+    color:#666;
     font-weight:bold;
 }
 
-.item-row{
-    border-bottom:1px solid #eee;
-    padding:8px 0;
+.admin-subtitle{
+    margin:0;
+    color:#999;
+    font-size:14px;
+}
+
+@media(max-width:768px){
+
+.admin-header{
+    flex-direction:column;
+    text-align:center;
+}
+
 }
 
 </style>
-
 </head>
-
 <body>
+<div class="header">
+<div class="admin-header">
 
-<h1>Rice Spice Hub Admin Dashboard</h1>
+    <img
+    src="../images/logo.jpg"
+    alt="Rice Spice Hub"
+    class="admin-logo">
 
-<div class="container">
+    <div>
 
-    <div class="orders-panel">
-        <h2>Orders</h2>
-        <div id="orders"></div>
-    </div>
+        <h1>Rice Spice Hub</h1>
 
-    <div class="details-panel">
-        <h2>Order Details</h2>
-        <div id="details">
-            Select an order
-        </div>
+        <p class="admin-tagline">
+            Your Satisfaction, Our Pride
+        </p>
+
+        <p class="admin-subtitle">
+            Admin Dashboard
+        </p>
+
     </div>
 
 </div>
+    <h1>Rice Spice Hub Admin Dashboard V3</h1>
+</div>
+<div class="container">
+<div class="cards">
+<div class="card"><h3 id="totalOrders">0</h3><div>Total Orders</div></div>
+<div class="card"><h3 id="pendingCount">0</h3><div>Pending</div></div>
+<div class="card"><h3 id="processingCount">0</h3><div>Processing</div></div>
+<div class="card"><h3 id="deliveryCount">0</h3><div>On Delivery</div></div>
+<div class="card"><h3 id="completedCount">0</h3><div>Completed</div></div>
+</div>
+
+<div class="toolbar">
+<input id="searchBox" placeholder="Search order/customer/phone" onkeyup="renderOrders()">
+<button onclick="setFilter('ALL')">All</button>
+<button onclick="setFilter('Pending')">Pending</button>
+<button onclick="setFilter('Processing')">Processing</button>
+<button onclick="setFilter('On Delivery')">On Delivery</button>
+<button onclick="setFilter('Completed')">Completed</button>
+</div>
+
+<div class="layout">
+<div class="orders"><div id="orders"></div></div>
+<div class="details"><div id="details">Select an order</div></div>
+</div>
+</div>
 
 <script>
+const API_URL="https://script.google.com/macros/s/AKfycbxL1aNFWUU7KBsdrH4cQMtLu_ORljcNSAqADIsH1mV_qLZZEtTyAkfWhvTdYaxqR4aMzQ/exec";
+let allOrders=[],allItems=[],currentFilter='ALL',selectedOrder='';
 
-const API_URL = "https://script.google.com/macros/s/AKfycbxL1aNFWUU7KBsdrH4cQMtLu_ORljcNSAqADIsH1mV_qLZZEtTyAkfWhvTdYaxqR4aMzQ/exec";
+function setFilter(f){currentFilter=f;renderOrders();}
 
-let allOrders = [];
-let allItems = [];
-
-// =======================
-// LOAD ORDERS
-// =======================
-function loadOrders() {
-
-    fetch(API_URL)
-        .then(res => res.json())
-        .then(data => {
-
-            allOrders = data.orders || [];
-            allItems = data.items || [];
-
-            renderOrders();
-
-        })
-        .catch(err => console.error("Fetch Error:", err));
-
+function loadOrders(){
+fetch(API_URL).then(r=>r.json()).then(data=>{
+allOrders=data.orders||[];
+allItems=data.items||[];
+updateCards();
+renderOrders();
+});
 }
 
-// Initial load
+function updateCards(){
+document.getElementById('totalOrders').textContent=allOrders.length;
+document.getElementById('pendingCount').textContent=allOrders.filter(x=>x.status==='Pending').length;
+document.getElementById('processingCount').textContent=allOrders.filter(x=>x.status==='Processing').length;
+document.getElementById('deliveryCount').textContent=allOrders.filter(x=>x.status==='On Delivery').length;
+document.getElementById('completedCount').textContent=allOrders.filter(x=>x.status==='Completed').length;
+}
+
+function renderOrders(){
+const q=document.getElementById('searchBox').value.toLowerCase();
+const box=document.getElementById('orders');
+box.innerHTML='';
+[...allOrders].reverse().filter(o=>{
+let ok=currentFilter==='ALL'||(o.status||'Pending')===currentFilter;
+let txt=(o.orderNumber+' '+o.name+' '+o.phone).toLowerCase();
+return ok && txt.includes(q);
+}).forEach(o=>{
+box.innerHTML+=`<div class="order-card" onclick="showOrder('${o.orderNumber}')">
+<b>${o.orderNumber}</b><br>${o.name}<br>¥${Number(o.total).toLocaleString()}<br>${o.status||'Pending'}
+</div>`;
+});
+}
+
+function showOrder(no){
+selectedOrder=no;
+const o=allOrders.find(x=>x.orderNumber===no);
+const items=allItems.filter(x=>x.orderNumber===no);
+let h=`<h2>${o.orderNumber}</h2>
+<p><b>Name:</b> ${o.name}</p>
+<p><b>Phone:</b> ${o.phone}</p>
+<p><b>Email:</b> ${o.email}</p>
+<p><b>Address:</b> ${o.address}</p>
+<p><b>Total:</b> ¥${Number(o.total).toLocaleString()}</p>
+<select id="statusSelect">
+<option ${o.status==='Pending'?'selected':''}>Pending</option>
+<option ${o.status==='Processing'?'selected':''}>Processing</option>
+<option ${o.status==='On Delivery'?'selected':''}>On Delivery</option>
+<option ${o.status==='Completed'?'selected':''}>Completed</option>
+</select>
+<button onclick="saveStatus()">Save Status</button><hr><h3>Items</h3>`;
+items.forEach(i=>{
+h+=`<div class="item-row">${i.productName}<br>Qty:${i.quantity} × ¥${i.price}</div>`;
+});
+document.getElementById('details').innerHTML=h;
+}
+
+function saveStatus(){
+const status=document.getElementById('statusSelect').value;
+fetch(API_URL,{method:'POST',body:JSON.stringify({
+action:'updateStatus',
+orderNumber:selectedOrder,
+status:status
+})}).then(()=>{
+alert('Status Updated');
 loadOrders();
-
-// Auto refresh every 10 seconds
-setInterval(loadOrders, 10000);
-
-
-// =======================
-// RENDER ORDER LIST
-// =======================
-function renderOrders() {
-
-    const container = document.getElementById("orders");
-    container.innerHTML = "";
-
-    if (allOrders.length === 0) {
-        container.innerHTML = "<p>No orders found</p>";
-        return;
-    }
-
-    // newest first (safe copy)
-    [...allOrders].reverse().forEach(order => {
-
-        container.innerHTML += `
-            <div class="order-card"
-                 onclick="showOrder('${order.orderNumber}')">
-
-                <strong>${order.orderNumber}</strong><br>
-                ${order.name}<br>
-                ¥${Number(order.total).toLocaleString()}<br>
-
-                <span class="status">
-                    ${order.status || 'Pending'}
-                </span>
-
-            </div>
-        `;
-
-    });
-
+});
 }
 
-
-// =======================
-// SHOW ORDER DETAILS
-// =======================
-function showOrder(orderNo) {
-
-    const order = allOrders.find(o => o.orderNumber === orderNo);
-    const items = allItems.filter(i => i.orderNumber === orderNo);
-
-    if (!order) {
-        document.getElementById("details").innerHTML = "<p>Order not found</p>";
-        return;
-    }
-
-    let html = `
-        <h3>${order.orderNumber}</h3>
-
-        <p><b>Date:</b> ${order.date}</p>
-        <p><b>Name:</b> ${order.name}</p>
-        <p><b>Phone:</b> ${order.phone}</p>
-        <p><b>Email:</b> ${order.email}</p>
-        <p><b>Address:</b> ${order.address}</p>
-
-        <hr>
-        <h3>Items</h3>
-    `;
-
-    items.forEach(item => {
-
-        html += `
-            <div class="item-row">
-
-                ${item.name || item.productName || "Item"}<br>
-
-                Qty: ${item.quantity || item.qty || 1}
-                × ¥${Number(item.price).toLocaleString()}
-
-                <br>
-
-                Total: ¥${Number(item.lineTotal || (item.price * item.quantity)).toLocaleString()}
-
-            </div>
-        `;
-
-    });
-
-    html += `
-        <hr>
-        <h2>
-            Order Total: ¥${Number(order.total).toLocaleString()}
-        </h2>
-    `;
-
-    document.getElementById("details").innerHTML = html;
-}
-
+loadOrders();
+setInterval(loadOrders,10000);
 </script>
-
 </body>
 </html>

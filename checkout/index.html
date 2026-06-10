@@ -1,9 +1,7 @@
 <!DOCTYPE html>
-
 <html lang="en">
 
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -36,33 +34,14 @@ body{
 
 .branding img{
     width:120px;
-    max-width:100%;
-    margin-bottom:10px;
-}
-
-.branding h1{
-    margin:0;
-    font-size:32px;
-}
-
-.branding .tagline{
-    margin:5px 0;
-    color:#444;
-    font-weight:bold;
-}
-
-.branding .categories{
-    color:#666;
-    font-size:14px;
 }
 
 .progress{
     text-align:center;
     background:#f8f8f8;
-    padding:15px;
+    padding:12px;
     border-radius:8px;
-    margin-bottom:25px;
-    font-size:18px;
+    margin-bottom:20px;
 }
 
 .section-card{
@@ -70,68 +49,53 @@ body{
     border:1px solid #ddd;
     border-radius:8px;
     padding:20px;
-    margin-bottom:25px;
-}
-
-.section-card h2{
-    margin-top:0;
+    margin-bottom:20px;
 }
 
 .checkout-item{
     display:flex;
     justify-content:space-between;
-    gap:15px;
-    padding:12px 0;
+    padding:10px 0;
     border-bottom:1px solid #eee;
-}
-
-.checkout-item:last-child{
-    border-bottom:none;
 }
 
 .summary-row{
     display:flex;
     justify-content:space-between;
-    margin-top:10px;
 }
 
 .grand-total{
-    margin-top:15px;
-    font-size:24px;
+    font-size:22px;
     font-weight:bold;
+    margin-top:10px;
     color:#0a7f3f;
 }
 
 .checkout-form input,
 .checkout-form textarea{
     width:100%;
-    padding:12px;
-    margin-bottom:15px;
-    box-sizing:border-box;
+    padding:10px;
+    margin-bottom:10px;
     border:1px solid #ccc;
     border-radius:5px;
 }
 
 .notice-box{
     background:#f8fff8;
+    padding:10px;
     border:1px solid #d6eadb;
-    padding:15px;
     border-radius:8px;
 }
 
-.button-row{
-    display:flex;
-    gap:15px;
-    flex-wrap:wrap;
+.checkout-action-area{
+    text-align:center;
     margin-top:25px;
 }
 
-.continue-btn{
-    background:#666;
-    color:white;
-    text-decoration:none;
-    padding:15px 25px;
-    border-radius:5px;
+.place-order-message,
+.secure-message{
+    color:#666;
+    margin:10px 0;
 }
 
 .place-order-btn{
@@ -139,64 +103,19 @@ body{
     color:white;
     border:none;
     padding:15px 30px;
-    border-radius:5px;
     font-size:18px;
+    border-radius:5px;
     cursor:pointer;
 }
 
-.checkout-action-area{
-text-align:center;
-margin-top:25px;
-}
-
-.place-order-message{
-color:#666;
-margin-bottom:15px;
-text-align:center;
-}
-
-.secure-message{
-color:#666;
-margin-bottom:20px;
-text-align:center;
-}
-
-.place-order-btn{
-display:inline-block;
-}
-
-
-.secure-message{
-color:#666;
-margin-bottom:20px;
-}
-
-.place-order-btn{
-display;
-}
-
-.empty-cart{
-    text-align:center;
-    padding:20px;
-}
-
-@media(max-width:768px){
-
-    .checkout-container{
-        margin:10px;
-        padding:20px;
-    }
-
-    .button-row{
-        flex-direction:column;
-    }
-
-    .continue-btn,
-    .place-order-btn{
-        width:100%;
-        text-align:center;
-    }
-
+.continue-btn{
+    display:inline-block;
+    background:#666;
+    color:white;
+    padding:10px 20px;
+    border-radius:5px;
+    text-decoration:none;
+    margin-bottom:15px;
 }
 
 </style>
@@ -207,21 +126,9 @@ display;
 
 <div class="checkout-container">
 
-```
 <div class="branding">
-
-    <img src="../images/logo.jpg" alt="Rice Spice Hub">
-
+    <img src="../images/logo.jpg">
     <h1>Rice Spice Hub</h1>
-
-    <p class="tagline">
-        Your Satisfaction, Our Pride
-    </p>
-
-    <p class="categories">
-        Foods • Fashion • Services • Online Shopping
-    </p>
-
 </div>
 
 <div class="progress">
@@ -229,13 +136,9 @@ display;
 </div>
 
 <div class="section-card">
-
     <h2>Order Summary</h2>
-
     <div id="orderSummary"></div>
-
     <div id="summaryTotals"></div>
-
 </div>
 
 <div class="section-card">
@@ -244,78 +147,36 @@ display;
 
     <div class="checkout-form">
 
-        <input
-        type="text"
-        id="name"
-        placeholder="Full Name *">
-
-        <input
-        type="text"
-        id="phone"
-        placeholder="Phone Number *">
-
-        <input
-        type="email"
-        id="email"
-        placeholder="Email Address">
-
-        <textarea
-        id="address"
-        rows="4"
-        placeholder="Delivery Address *"></textarea>
+        <input type="text" id="name" placeholder="Full Name *">
+        <input type="text" id="phone" placeholder="Phone *">
+        <input type="email" id="email" placeholder="Email">
+        <textarea id="address" placeholder="Address *"></textarea>
 
     </div>
 
     <div class="notice-box">
-
         ✓ Tax Included<br>
-        🚚 Free Delivery On Orders Over ¥6,000<br>
-        🔒 Secure Order Processing
-
+        🚚 Free Delivery Over ¥6000<br>
+        🔒 Secure Checkout
     </div>
 
 </div>
 
-<div class="button-row">
-
-    <div class="button-row">
-
-<div class="button-row">
-
-<a href="../cart/index.html"
-   class="continue-btn">
-
-   ← Back To Cart
-
-</a>
-
-</div>
+<a href="../cart/index.html" class="continue-btn">← Back To Cart</a>
 
 <div class="checkout-action-area">
 
-<p class="place-order-message">
+    <p class="place-order-message">
+        Please review your delivery information carefully before placing your order.
+    </p>
 
-    Please review your delivery information carefully before placing your order.
+    <p class="secure-message">
+        🔒 Secure Checkout • Privacy Protected • No Hidden Fees
+    </p>
 
-</p>
-
-<p class="secure-message">
-
-    🔒 Secure Checkout • Privacy Protected • No Hidden Fees
-
-</p>
-
-<button
-class="place-order-btn"
-onclick="submitOrder()">
-
-    PLACE ORDER
-
-</button>
-
-</div>
-
-
+    <button class="place-order-btn" onclick="submitOrder()">
+        PLACE ORDER
+    </button>
 
 </div>
 
@@ -323,243 +184,103 @@ onclick="submitOrder()">
 
 <script>
 
-const API_URL =
-"https://script.google.com/macros/s/AKfycbxL1aNFWUU7KBsdrH4cQMtLu_ORljcNSAqADIsH1mV_qLZZEtTyAkfWhvTdYaxqR4aMzQ/exec";
+const API_URL = "https://script.google.com/macros/s/AKfycbxL1aNFWUU7KBsdrH4cQMtLu_ORljcNSAqADIsH1mV_qLZZEtTyAkfWhvTdYaxqR4aMzQ/exec";
 
-let cart =
-JSON.parse(localStorage.getItem("cart")) || [];
-
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let total = 0;
 
+// =====================
+// RENDER CHECKOUT
+// =====================
 function renderCheckout(){
 
-    const summary =
-    document.getElementById("orderSummary");
+    const summary = document.getElementById("orderSummary");
+    const totals = document.getElementById("summaryTotals");
 
-    const totals =
-    document.getElementById("summaryTotals");
+    if(!summary || !totals) return;
 
     summary.innerHTML = "";
-
     total = 0;
 
     if(cart.length === 0){
-
-        summary.innerHTML =
-        "<p class='empty-cart'>Your cart is empty.</p>";
-
+        summary.innerHTML = "<p>Cart is empty</p>";
         totals.innerHTML = "";
-
         return;
     }
-
-    let itemCount = 0;
 
     cart.forEach(item => {
 
-        const lineTotal =
-        item.price * item.quantity;
-
-        total += lineTotal;
-
-        itemCount += item.quantity;
+        let line = item.price * item.quantity;
+        total += line;
 
         summary.innerHTML += `
-
         <div class="checkout-item">
-
-            <div>
-
-                <strong>${item.name}</strong>
-
-                <br>
-
-                Qty: ${item.quantity}
-
-                ×
-
-                ¥${item.price.toLocaleString()}
-
-            </div>
-
-            <div>
-
-                ¥${lineTotal.toLocaleString()}
-
-            </div>
-
+            <div>${item.name} x ${item.quantity}</div>
+            <div>¥${line.toLocaleString()}</div>
         </div>
-
         `;
-
     });
 
     totals.innerHTML = `
-
-    <div class="summary-row">
-        <span>Items</span>
-        <span>${itemCount}</span>
-    </div>
-
-    <div class="summary-row">
-        <span>Subtotal</span>
-        <span>¥${total.toLocaleString()}</span>
-    </div>
-
-    <div class="summary-row">
-        <span>Shipping</span>
-        <span>FREE</span>
-    </div>
-
-    <div class="grand-total">
-        Total: ¥${total.toLocaleString()}
-    </div>
-
+        <div class="summary-row">
+            <span>Total</span>
+            <span>¥${total.toLocaleString()}</span>
+        </div>
     `;
-
 }
 
+// =====================
+// SUBMIT ORDER
+// =====================
 function submitOrder(){
 
     if(cart.length === 0){
-
         alert("Cart is empty");
         return;
-
     }
-
-    const name =
-    document.getElementById("name").value.trim();
-
-    const phone =
-    document.getElementById("phone").value.trim();
-
-    const email =
-    document.getElementById("email").value.trim();
-
-    const address =
-    document.getElementById("address").value.trim();
-
-    if(!name){
-
-        alert("Please enter your name");
-        return;
-
-    }
-
-    if(!phone){
-
-        alert("Please enter your phone number");
-        return;
-
-    }
-
-    if(!address){
-
-        alert("Please enter your address");
-        return;
-
-    }
-
-    const today = new Date();
-
-    const datePart =
-    today.toISOString()
-    .slice(0,10)
-    .replace(/-/g,"");
-
-    const randomPart =
-    Math.floor(Math.random()*9000 + 1000);
 
     const order = {
-
-        orderNumber:
-        "RSH-" + datePart + "-" + randomPart,
-
-        date:
-        today.toLocaleString(),
-
-        name,
-        phone,
-        email,
-        address,
-
-        total,
-
-        items:
-        JSON.stringify(cart)
-
+        orderNumber: "RSH-" + Date.now(),
+        date: new Date().toLocaleString(),
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        email: document.getElementById("email").value,
+        address: document.getElementById("address").value,
+        total: total,
+        items: JSON.stringify(cart)
     };
 
     fetch(API_URL, {
-
-        method:"POST",
-
-        body:JSON.stringify(order)
-
+        method: "POST",
+        mode: "no-cors",
+        body: JSON.stringify(order)
     })
-    .then(response => response.text())
-    .then(data => {
+    .then(() => {
 
-        localStorage.setItem(
-            "lastOrderNumber",
-            order.orderNumber
-        );
-
-        localStorage.setItem(
-            "lastCustomerName",
-            name
-        );
-        
-        localStorage.setItem(
-            "customerName",
-            name
-        );
-
-        localStorage.setItem(
-            "customerPhone",
-            phone
-        );
-
-        localStorage.setItem(
-            "customerEmail",
-            email
-        );
-
-        localStorage.setItem(
-            "customerAddress",
-            address
-        );
+        localStorage.setItem("lastOrderNumber", order.orderNumber);
+        localStorage.setItem("customerName", order.name);
+        localStorage.setItem("customerPhone", order.phone);
+        localStorage.setItem("customerEmail", order.email);
+        localStorage.setItem("customerAddress", order.address);
+        localStorage.setItem("lastOrderItems", JSON.stringify(cart));
 
         localStorage.removeItem("cart");
 
-        window.location.href =
-        "success.html";
+        window.location.href = "success.html";
 
     })
-    .catch(error => {
-
-        console.error(error);
-
-        alert("Failed to submit order.");
-
+    .catch(err => {
+        console.log(err);
+        alert("Order sent. Please check admin panel.");
     });
-
 }
 
-document.getElementById("name").value =
-localStorage.getItem("customerName") || "";
-
-document.getElementById("phone").value =
-localStorage.getItem("customerPhone") || "";
-
-document.getElementById("email").value =
-localStorage.getItem("customerEmail") || "";
-
-document.getElementById("address").value =
-localStorage.getItem("customerAddress") || "";
-
-renderCheckout();
+// =====================
+// INIT (IMPORTANT)
+// =====================
+document.addEventListener("DOMContentLoaded", function(){
+    renderCheckout();
+});
 
 </script>
 
